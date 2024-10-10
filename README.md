@@ -8,10 +8,10 @@ This script helps you sync files between a local folder and a SharePoint documen
 2. **Dependencies**: Install the required packages with:
 
    ```bash
-   pip install requests msal python-dotenv
+   pip install -r requirements.txt
    ```
 
-3. **Azure AD App**: Register an app in Azure AD to obtain the necessary credentials (Client ID, Tenant ID, Client Secret).
+3. **Azure AD App**: Register an app in Azure AD to obtain the necessary credentials (Client ID, Tenant ID, Client Secret). [Guide]("https://medium.com/nerd-for-tech/query-ms-graph-api-in-python-e8e04490b04e")
 
 4. **.env File**: Create a `.env` file in the script's directory and add the following values:
 
@@ -37,6 +37,24 @@ This script helps you sync files between a local folder and a SharePoint documen
    - Files in the local folder are uploaded to the SharePoint document library.
    - Files that are no longer in the local folder are deleted from SharePoint.
 
+## Setting up a Cronjob
+To run a Python script at regular intervals (e.g., every 5 minutes), you can set up a cronjob. Follow these steps:
+
+1. Open the Crontab editor:
+```bash
+crontab -e
+```
+
+2. Add the following line to the editor to run your script every 5 minutes:
+```
+*/5 * * * * /usr/bin/python3 /path/to/sync-local-to-sharepoint/main.py
+```
+**Explanation**:
+
+`*/5`: Runs the script every 5 minutes. <br> 
+`*`: Every hour, day, month, etc. (wildcards). <br>`/usr/bin/python3`: Path to your Python interpreter (ensure this is the correct path). <br>
+`/path/to/sync-local-to-sharepoint/main.py`: Full path to your Python script. <br>
+After saving and exiting the editor, the script will execute every 5 minutes.
 ## Functions
 
 - **upload_file_to_sharepoint**: Uploads a file to SharePoint.

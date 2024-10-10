@@ -26,7 +26,7 @@ result = app.acquire_token_for_client(scopes=SCOPES)
 if "access_token" in result:
     token = result["access_token"]
 else:
-    raise Exception("Kein Access-Token erhalten.")
+    raise Exception("No access token received.")
 
 
 def upload_file_to_sharepoint(file_path, sharepoint_folder):
@@ -42,9 +42,9 @@ def upload_file_to_sharepoint(file_path, sharepoint_folder):
         response = requests.put(upload_url, headers=headers, data=file)
 
     if response.status_code == 201:
-        print(f"'{file_name}' erfolgreich hochgeladen.")
+        print(f"'{file_name}' successfully uploaded.")
     else:
-        print(f"Fehler beim Hochladen von '{file_name}': {response.status_code}, {response.text}")
+        print(f"Error when uploading  '{file_name}': {response.status_code}, {response.text}")
 
 
 def get_files_in_sharepoint_folder(sharepoint_folder):
@@ -58,7 +58,7 @@ def get_files_in_sharepoint_folder(sharepoint_folder):
         items = response.json().get('value', [])
         return {item['name']: item['id'] for item in items}
     else:
-        print(f"Fehler beim Abrufen der Dateien in SharePoint: {response.status_code}, {response.text}")
+        print(f"Error when retrieving files in SharePoint: {response.status_code}, {response.text}")
         return {}
 
 
@@ -70,9 +70,9 @@ def delete_file_from_sharepoint(file_id):
 
     response = requests.delete(delete_url, headers=headers)
     if response.status_code == 204:
-        print(f"Datei erfolgreich gelöscht.")
+        print(f"File successfully deleted.")
     else:
-        print(f"Fehler beim Löschen der Datei: {response.status_code}, {response.text}")
+        print(f"Error deleting the file: {response.status_code}, {response.text}")
 
 
 def sync_local_folder_to_sharepoint(local_folder, sharepoint_folder):
@@ -89,7 +89,7 @@ def sync_local_folder_to_sharepoint(local_folder, sharepoint_folder):
                 del sharepoint_files[file]
 
     for file_name, file_id in sharepoint_files.items():
-        print(f"Lösche Datei in SharePoint: {file_name}")
+        print(f"Delete file in SharePoint: {file_name}")
         delete_file_from_sharepoint(file_id)
 
 
